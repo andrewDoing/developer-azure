@@ -23,7 +23,11 @@ def generate_response(system_prompt, user_prompt, *args):
         )
 
     # Set up your OpenAI API credentials
+    openai.api_type = "azure"
     openai.api_key = os.environ["OPENAI_API_KEY"]
+    openai.api_base = os.environ["OPENAI_API_BASE"]
+    openai.api_version = os.environ["OPENAI_API_VERSION"]
+    DEPLOYED_MODEL_NAME = "gpt-35-turbo"
 
     messages = []
     messages.append({"role": "system", "content": system_prompt})
@@ -38,7 +42,7 @@ def generate_response(system_prompt, user_prompt, *args):
         role = "user" if role == "assistant" else "assistant"
 
     params = {
-        "model": DEFAULT_MODEL,
+        "deployment_id": DEPLOYED_MODEL_NAME,
         "messages": messages,
         "max_tokens": DEFAULT_MAX_TOKENS,
         "temperature": 0,
